@@ -19,5 +19,51 @@ model User{
   phone String?
   email String @unique
   password String
+  remainTickets Ticket[]
+  currentActiveTicket Ticket?
+  favRouteIds String[] @db.ObjectId
+  favRoutes Route[] @relation(fields: [favRouteIds], references: [id])
+  favBusStationIds String[] @db.ObjectId
+  favBusStations BusStation[] @relation(fields: [favBusStationIds], references: [id])
 }
 
+model Route{
+  id String @id @map("_id") @default(auto()) @db.ObjectId 
+  routeName String
+  startTime DateTime
+  endTime DateTime
+  minutes Int
+  bus Bus?
+  busStationIds String[] @db.ObjectId 
+  busStations BusStation[] @relation(fields: [busStationIds], references: [id])
+  userIds String[] @db.ObjectId
+  users User[] @relation(fields: [userIds], references: [id])
+}
+
+model BusStation{
+  id String @id @map("_id") @default(auto()) @db.ObjectId
+  name String
+  latitude Float
+  longitude Float
+  routeIds String[] @db.ObjectId
+  routes Route[] @relation(fields: [routeIds], references: [id])
+  userIds String[] @db.ObjectId
+  users User[] @relation(fields: [userIds], references: [id])
+}
+
+model Bus{
+  id String @id @map("_id") @default(auto()) @db.ObjectId
+  number Int
+  routeId String @db.ObjectId @unique
+  route Route @relation(fields: [routeId], references: [id])
+}
+
+type Ticket {
+  activatedTime DateTime?
+  type TicketType
+}
+
+enum TicketType {
+  DAY
+  MONTH
+}
