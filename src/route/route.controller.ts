@@ -6,9 +6,9 @@ import { RouteService } from "./route.service";
 export class RouteController {
     constructor(private routeService: RouteService){}
 
-    @HttpCode(201)
-    @Post()
-    createRoute(@Body() dto: any){
-        return this.routeService.createRoute(dto)
-    }
+    // @HttpCode(201)
+    // @Post()
+    // createRoute(@Body() dto: any){
+    //     return this.routeService.createRoute(dto)
+    // }
 }

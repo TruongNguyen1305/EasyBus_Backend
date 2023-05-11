@@ -21,22 +21,7 @@ class SignUpDto {
 
     @IsString()
     @IsNotEmpty()
-    firstName: string
-
-    @IsString()
-    @IsNotEmpty()
-    lastName: string
-
-    @IsString()
-    phone?: string
-
-    @IsBoolean()
-    @IsNotEmpty()
-    gender: boolean
-
-    @IsDateString()
-    @IsNotEmpty()
-    birthdate: Date
+    fullName: string
 }
 
 export {SignInDto, SignUpDto}

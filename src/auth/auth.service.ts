@@ -6,7 +6,6 @@ import { SignInDto, SignUpDto } from "./dto";
 import * as argon from 'argon2'
 import { Prisma } from "@prisma/client";
 
-
 @Injectable()
 export class AuthService {
     constructor(private prisma: PrismaService, private jwt: JwtService, private config: ConfigService){}
@@ -16,7 +15,7 @@ export class AuthService {
         try{
             const user = await this.prisma.user.create({
                 data: {
-                    ...dto
+                    ...dto,
                 }
             })
             const {access_token} = await this.signToken(user.id)

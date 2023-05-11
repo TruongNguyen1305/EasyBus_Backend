@@ -12,44 +12,14 @@ datasource db {
 
 model User{
   id String @id @map("_id") @default(auto()) @db.ObjectId
-  firstName String
-  lastName String
-  gender Boolean
-  birthdate DateTime
+  fullName String
+  gender Boolean?
+  birthdate DateTime?
   phone String?
   email String @unique
   password String
   remainTickets Ticket[]
   currentActiveTicket Ticket?
-  favRouteIds String[] @db.ObjectId @default([])
-  favRoutes Route[] @relation(fields: [favRouteIds], references: [id]) 
-  favBusStationIds String[] @db.ObjectId @default([])
-  favBusStations BusStation[] @relation(fields: [favBusStationIds], references: [id])
-}
-
-model Route{
-  id String @id @map("_id") @default(auto()) @db.ObjectId 
-  routeName String
-  busNo Int @unique
-  startTime String
-  endTime String
-  minutes Int
-  busStationIds String[] @db.ObjectId @default([])
-  busStations BusStation[] @relation(fields: [busStationIds], references: [id])
-  userIds String[] @db.ObjectId @default([])
-  users User[] @relation(fields: [userIds], references: [id])
-}
-
-model BusStation{
-  id String @id @map("_id") @default(auto()) @db.ObjectId
-  code String @unique
-  name String
-  latitude Float
-  longitude Float
-  routeIds String[] @db.ObjectId @default([])
-  routes Route[] @relation(fields: [routeIds], references: [id])
-  userIds String[] @db.ObjectId @default([])
-  users User[] @relation(fields: [userIds], references: [id])
 }
 
 type Ticket {
