@@ -1,4 +1,4 @@
-import { Controller, Get, Patch, Param, Delete, UseGuards } from '@nestjs/common';
+import { Controller, Get, Post, Param, UseGuards } from '@nestjs/common';
 import { FavouriteService } from './favourite.service';
 import { JwtGuard } from 'src/auth/guard';
 import { GetUser } from 'src/auth/decorator';
@@ -18,36 +18,19 @@ export class FavouriteController {
     return this.favouriteService.findAllBus(userId);
   }
 
-  @Patch('station/:id')
-  addStation(
+  @Post('station/:id')
+  updateStation(
     @GetUser('id') userId: string,
     @Param('id') id: string
   ) {
-    return this.favouriteService.addStation(userId, id);
+    return this.favouriteService.updateStation(userId, id);
   }
 
-  @Patch('bus/:id')
-  addBus(
+  @Post('bus/:id')
+  updateBus(
     @GetUser('id') userId: string,
     @Param('id') id: string
   ) {
-    return this.favouriteService.addBus(userId, id);
-  }
-
-
-  @Delete('station/:id')
-  removeStation(
-    @GetUser('id') userId: string,
-    @Param('id') id: string
-  ) {
-    return this.favouriteService.removeStation(userId, id);
-  }
-
-  @Delete('bus/:id')
-  removeBus(
-    @GetUser('id') userId: string,
-    @Param('id') id: string
-  ) {
-    return this.favouriteService.removeBus(userId, id);
+    return this.favouriteService.updateBus(userId, id);
   }
 }

@@ -24,11 +24,14 @@ export class FavouriteService {
     return user.favouriteBus
   }
 
-  async addStation(userId: string, id: string) {
+  async updateStation(userId: string, id: string) {
     const user = await this.getUser(userId)
-    user.favouriteStation.push(id)
-    console.log(user.favouriteStation)
-    
+    if (user.favouriteStation.includes(id)) {
+      user.favouriteStation = user.favouriteStation.filter(station => station !== id)
+    }
+    else {
+      user.favouriteStation.push(id)
+    }
     const newUser = await this.prisma.user.update({
       where: {
         id: userId
@@ -41,58 +44,23 @@ export class FavouriteService {
     return newUser.favouriteStation
   }
 
-  async addBus(userId: string, id: string) {
+  async updateBus(userId: string, id: string) {
     const user = await this.getUser(userId)
-    user.favouriteBus.push(id)
-    
+    if (user.favouriteBus.includes(id)) {
+      user.favouriteBus = user.favouriteBus.filter(station => station !== id)
+    }
+    else {
+      user.favouriteBus.push(id)
+    }
     const newUser = await this.prisma.user.update({
       where: {
         id: userId
-      },
+      },  
       data: {
         favouriteBus: user.favouriteBus
       }
     })
+
     return newUser.favouriteBus
   }
-  
-  async removeStation(userId: string, id: string) {
-    const user = await this.getUser(userId)
-    user.favouriteStation = user.favouriteStation.filter(station => station !== id)
-    
-    const newUser = await this.prisma.user.update({
-      where: {
-        id: userId
-      },
-      data: {
-        favouriteStation: user.favouriteStation
-      }
-    })
-    return newUser.favouriteStation
-  }
-
-  async removeBus(userId: string, id: string) {
-    const user = await this.getUser(userId)
-    user.favouriteBus = user.favouriteBus.filter(station => station !== id)
-    
-    const newUser = await this.prisma.user.update({
-      where: {
-        id: userId
-      },
-      data: {
-        favouriteBus: user.favouriteBus
-      }
-    })
-    
-    return newUser.favouriteBus
-  }
-
-
-  // update(id: number) {
-  //   return `This action updates a #${id} favourite`;
-  // }
-
-  // remove(id: number) {
-  //   return `This action removes a #${id} favourite`;
-  // }
 }
