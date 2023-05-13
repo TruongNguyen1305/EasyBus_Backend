@@ -5,76 +5,86 @@ import { PrismaService } from 'src/prisma/prisma.service';
 export class FavouriteService {
   constructor(private prisma: PrismaService) {}
  
-  async findAllStation(userId: string) {
+  async getUser(userId: string) { 
     const user = await this.prisma.user.findUnique({
       where: {
         id: userId,
       }
     })
+    return user 
+  }
 
-    return user.favouriteBus
+  async findAllStation(userId: string) {
+    const user = await this.getUser(userId)
+    return user.favouriteStation
   }
 
   async findAllBus(userId: string) {
-    const user = await this.prisma.user.findUnique({
-      where: {
-        id: userId,
-      }
-    })
-
+    const user = await this.getUser(userId)
     return user.favouriteBus
   }
 
   async addStation(userId: string, id: string) {
-    const user = await this.prisma.user.findUnique({
+    const user = await this.getUser(userId)
+    user.favouriteStation.push(id)
+    console.log(user.favouriteStation)
+    
+    const newUser = await this.prisma.user.update({
       where: {
-        id: userId,
+        id: userId
+      },  
+      data: {
+        favouriteStation: user.favouriteStation
       }
     })
-    user.favouriteStation.push(id)
 
-    return user.favouriteStation
+    return newUser.favouriteStation
   }
 
   async addBus(userId: string, id: string) {
-    const user = await this.prisma.user.findUnique({
+    const user = await this.getUser(userId)
+    user.favouriteBus.push(id)
+    
+    const newUser = await this.prisma.user.update({
       where: {
-        id: userId,
+        id: userId
+      },
+      data: {
+        favouriteBus: user.favouriteBus
       }
     })
-    user.favouriteBus.push(id)
-
-    return user.favouriteBus
+    return newUser.favouriteBus
   }
   
   async removeStation(userId: string, id: string) {
-    const user = await this.prisma.user.findUnique({
+    const user = await this.getUser(userId)
+    user.favouriteStation = user.favouriteStation.filter(station => station !== id)
+    
+    const newUser = await this.prisma.user.update({
       where: {
-        id: userId,
+        id: userId
+      },
+      data: {
+        favouriteStation: user.favouriteStation
       }
     })
-    const indexToDelete = user.favouriteStation.indexOf(id);
-    
-    if (indexToDelete !== -1) {
-      user.favouriteStation.splice(indexToDelete, 1);
-    }
-
-    return user.favouriteStation
+    return newUser.favouriteStation
   }
 
   async removeBus(userId: string, id: string) {
-    const user = await this.prisma.user.findUnique({
+    const user = await this.getUser(userId)
+    user.favouriteBus = user.favouriteBus.filter(station => station !== id)
+    
+    const newUser = await this.prisma.user.update({
       where: {
-        id: userId,
+        id: userId
+      },
+      data: {
+        favouriteBus: user.favouriteBus
       }
     })
-    const indexToDelete = user.favouriteBus.indexOf(id);
     
-    if (indexToDelete !== -1) {
-      user.favouriteBus.splice(indexToDelete, 1);
-    }
-
-    return user.favouriteBus
+    return newUser.favouriteBus
   }
 
 

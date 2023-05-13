@@ -40,7 +40,7 @@ export class FavouriteController {
     @GetUser('id') userId: string,
     @Param('id') id: string
   ) {
-    return this.favouriteService.addStation(userId, id);
+    return this.favouriteService.removeStation(userId, id);
   }
 
   @Delete('bus/:id')
@@ -48,6 +48,6 @@ export class FavouriteController {
     @GetUser('id') userId: string,
     @Param('id') id: string
   ) {
-    return this.favouriteService.addBus(userId, id);
+    return this.favouriteService.removeBus(userId, id);
   }
 }
