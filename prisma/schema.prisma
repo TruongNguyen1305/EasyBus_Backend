@@ -20,6 +20,8 @@ model User{
   password String
   remainTickets Ticket[]
   currentActiveTicket Ticket?
+  favouriteStation String[]
+  favouriteBus String[]
 }
 
 type Ticket {

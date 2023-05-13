@@ -3,9 +3,7 @@ import { AuthModule } from './auth/auth.module';
 import { ConfigModule } from '@nestjs/config';
 import { PrismaModule } from './prisma/prisma.module';
 import { UserModule } from './user/user.module';
-import { BusStationModule } from './busStation/busStation.module';
-import { BusModule } from './bus/bus.module';
-import { RouteModule } from './route/route.module';
+import { FavouriteModule } from './favourite/favourite.module';
 
 @Module({
   imports: [
@@ -14,10 +12,8 @@ import { RouteModule } from './route/route.module';
     }),
     AuthModule,
     UserModule,
-    RouteModule,
-    BusStationModule,
-    BusModule,
-    PrismaModule
+    PrismaModule,
+    FavouriteModule
   ]
 })
 export class AppModule {}
