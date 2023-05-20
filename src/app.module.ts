@@ -4,6 +4,7 @@ import { ConfigModule } from '@nestjs/config';
 import { PrismaModule } from './prisma/prisma.module';
 import { UserModule } from './user/user.module';
 import { FavouriteModule } from './favourite/favourite.module';
+import { PaymentModule } from './payment/payment.module';
 
 @Module({
   imports: [
@@ -13,7 +14,8 @@ import { FavouriteModule } from './favourite/favourite.module';
     AuthModule,
     UserModule,
     PrismaModule,
-    FavouriteModule
+    FavouriteModule,
+    PaymentModule
   ]
 })
 export class AppModule {}
