@@ -23,4 +23,12 @@ export class PaymentController {
         return res
     }
 
+    @Post()
+    async updateTicketFromUser(@GetUser('id') userId: string){
+
+    }
+
+    async activateTicketFromUser(@GetUser('id') userId: string){
+
+    }
 }
