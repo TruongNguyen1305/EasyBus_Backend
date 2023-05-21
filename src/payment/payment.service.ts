@@ -69,4 +69,8 @@ export class PaymentService {
             throw new InternalServerErrorException(error.message)
         }
     }
+
+    async updateTicketFromUser(userId: string, dto: PaymentDto) {
+
+    }
 }
