@@ -3,7 +3,7 @@ import { ConfigService } from "@nestjs/config";
 import { PrismaService } from "../prisma/prisma.service";
 import { PaymentDto } from "./dto";
 import {createHmac} from 'crypto'
-import fetch from "node-fetch";
+import fetch from 'node-fetch'
 
 @Injectable()
 export class PaymentService {

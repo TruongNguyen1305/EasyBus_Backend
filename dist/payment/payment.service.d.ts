@@ -13,6 +13,6 @@ export declare class PaymentService {
     private redirectUrl;
     private partnerClientId;
     constructor(prisma: PrismaService, config: ConfigService);
-    getPaymentFromMoMo(userId: string, dto: PaymentDto): Promise<unknown>;
+    getPaymentFromMoMo(userId: string, dto: PaymentDto): Promise<any>;
     updateTicketFromUser(userId: string, dto: PaymentDto): Promise<void>;
 }
