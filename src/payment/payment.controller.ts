@@ -11,7 +11,7 @@ export class PaymentController {
 
     @Post()
     async getPaymentFromMoMo(@GetUser('id') userId: string, @Body() dto: PaymentDto){
-        const res = await this.paymentService.getPaymentFromMoMo(userId, dto)
+        const res: any = await this.paymentService.getPaymentFromMoMo(userId, dto)
         if(res.error){
             if(res.status === 400){
                 throw new BadRequestException(res.message)

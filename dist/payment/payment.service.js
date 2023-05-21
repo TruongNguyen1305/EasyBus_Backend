@@ -14,6 +14,7 @@ const common_1 = require("@nestjs/common");
 const config_1 = require("@nestjs/config");
 const prisma_service_1 = require("../prisma/prisma.service");
 const crypto_1 = require("crypto");
+const node_fetch_1 = require("node-fetch");
 let PaymentService = class PaymentService {
     constructor(prisma, config) {
         this.prisma = prisma;
@@ -55,7 +56,7 @@ let PaymentService = class PaymentService {
             lang: this.lang
         });
         try {
-            const response = await fetch("https://test-payment.momo.vn/v2/gateway/api/create", {
+            const response = await (0, node_fetch_1.default)("https://test-payment.momo.vn/v2/gateway/api/create", {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
