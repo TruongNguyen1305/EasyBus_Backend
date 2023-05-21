@@ -3,7 +3,6 @@ import { UserService } from './user.service'
 import { GetUser } from 'src/auth/decorator'
 import { User } from '@prisma/client'
 import { JwtGuard } from 'src/auth/guard';
-import { profile } from 'console';
 import { ProfileDto } from 'src/auth/dto';
 
 @UseGuards(JwtGuard)
