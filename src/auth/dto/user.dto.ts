@@ -26,4 +26,11 @@ class ProfileDto {
     birthdate?: string
 }
 
-export {ProfileDto}
+class ActivateTicketDto {
+
+    @IsNotEmpty()
+    @IsString()
+    type: string;
+}
+
+export { ProfileDto, ActivateTicketDto }

@@ -6,4 +6,7 @@ declare class ProfileDto {
     gender: boolean;
     birthdate?: string;
 }
-export { ProfileDto };
+declare class ActivateTicketDto {
+    type: string;
+}
+export { ProfileDto, ActivateTicketDto };

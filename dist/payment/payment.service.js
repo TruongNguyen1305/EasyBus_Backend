@@ -75,8 +75,6 @@ let PaymentService = class PaymentService {
             throw new common_1.InternalServerErrorException(error.message);
         }
     }
-    async updateTicketFromUser(userId, dto) {
-    }
     async notifyPayment(payload) {
         const { partnerCode, orderId, requestId, amount, orderInfo, orderType, transId, resultCode, message, payType, responseTime, extraData, m2signature, } = payload;
         console.log(payload);
@@ -93,14 +91,14 @@ let PaymentService = class PaymentService {
             while (data.normalTicketCount) {
                 tickets.push({
                     type: client_1.TicketType.DAY,
-                    activatedTime: null
+                    remainTurn: 1
                 });
                 data.normalTicketCount -= 1;
             }
             while (data.monthTicketCount) {
                 tickets.push({
                     type: client_1.TicketType.MONTH,
-                    activatedTime: null
+                    remainTurn: 30
                 });
                 data.normalTicketCount -= 1;
             }

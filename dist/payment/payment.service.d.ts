@@ -15,7 +15,6 @@ export declare class PaymentService {
     private partnerClientId;
     constructor(prisma: PrismaService, config: ConfigService);
     getPaymentFromMoMo(userId: string, dto: PaymentDto): Promise<any>;
-    updateTicketFromUser(userId: string, dto: PaymentDto): Promise<void>;
     notifyPayment(payload: any): Promise<{
         remainTickets: Ticket[];
         currentActiveTicket: Ticket;

@@ -83,10 +83,6 @@ export class PaymentService {
         }
     }
 
-    async updateTicketFromUser(userId: string, dto: PaymentDto) {
-
-    }
-
     async notifyPayment(payload: any){
         const {
             partnerCode,
@@ -127,14 +123,14 @@ export class PaymentService {
             while (data.normalTicketCount) {
                 tickets.push({
                     type: TicketType.DAY,
-                    activatedTime: null
+                    remainTurn: 1
                 })
                 data.normalTicketCount -= 1
             }
             while (data.monthTicketCount) {
                 tickets.push({
                     type: TicketType.MONTH,
-                    activatedTime: null
+                    remainTurn: 30
                 })
                 data.normalTicketCount -= 1
             }

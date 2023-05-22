@@ -9,7 +9,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.ProfileDto = void 0;
+exports.ActivateTicketDto = exports.ProfileDto = void 0;
 const class_validator_1 = require("class-validator");
 class ProfileDto {
 }
@@ -44,4 +44,12 @@ __decorate([
     __metadata("design:type", String)
 ], ProfileDto.prototype, "birthdate", void 0);
 exports.ProfileDto = ProfileDto;
+class ActivateTicketDto {
+}
+__decorate([
+    (0, class_validator_1.IsNotEmpty)(),
+    (0, class_validator_1.IsString)(),
+    __metadata("design:type", String)
+], ActivateTicketDto.prototype, "type", void 0);
+exports.ActivateTicketDto = ActivateTicketDto;
 //# sourceMappingURL=user.dto.js.map

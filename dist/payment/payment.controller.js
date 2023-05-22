@@ -34,10 +34,6 @@ let PaymentController = class PaymentController {
         }
         return res;
     }
-    async updateTicketFromUser(userId) {
-    }
-    async activateTicketFromUser(userId) {
-    }
     notifyPayment(payload) {
         console.log(this.paymentService.notifyPayment(payload));
     }
@@ -51,20 +47,6 @@ __decorate([
     __metadata("design:paramtypes", [String, dto_1.PaymentDto]),
     __metadata("design:returntype", Promise)
 ], PaymentController.prototype, "getPaymentFromMoMo", null);
-__decorate([
-    (0, common_1.Post)(),
-    __param(0, (0, decorator_1.GetUser)('id')),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String]),
-    __metadata("design:returntype", Promise)
-], PaymentController.prototype, "updateTicketFromUser", null);
-__decorate([
-    (0, common_1.Post)(),
-    __param(0, (0, decorator_1.GetUser)('id')),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String]),
-    __metadata("design:returntype", Promise)
-], PaymentController.prototype, "activateTicketFromUser", null);
 __decorate([
     (0, common_1.Post)('notify'),
     __param(0, (0, common_1.Body)()),

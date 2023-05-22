@@ -28,6 +28,19 @@ let UserController = class UserController {
     updateProfile(id, profile) {
         return this.userService.updateProfile(id, profile);
     }
+    getAllTicket(id) {
+        return this.userService.getAllTicket(id);
+    }
+    getCurrentActiveTicket(id) {
+        return this.userService.getCurrentActiveTicket(id);
+    }
+    async activateTicket(id, dto) {
+        const res = await this.userService.activateTicket(id, dto);
+        if (res.error) {
+            throw new common_1.BadRequestException(res.error);
+        }
+        return res;
+    }
 };
 __decorate([
     (0, common_1.Get)('me'),
@@ -44,6 +57,28 @@ __decorate([
     __metadata("design:paramtypes", [String, dto_1.ProfileDto]),
     __metadata("design:returntype", void 0)
 ], UserController.prototype, "updateProfile", null);
+__decorate([
+    (0, common_1.Get)(':id/tickets'),
+    __param(0, (0, common_1.Param)('id')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", void 0)
+], UserController.prototype, "getAllTicket", null);
+__decorate([
+    (0, common_1.Get)(':id/tickets/currentActive'),
+    __param(0, (0, common_1.Param)('id')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", void 0)
+], UserController.prototype, "getCurrentActiveTicket", null);
+__decorate([
+    (0, common_1.Patch)(':id/tickets'),
+    __param(0, (0, common_1.Param)('id')),
+    __param(1, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String, dto_1.ActivateTicketDto]),
+    __metadata("design:returntype", Promise)
+], UserController.prototype, "activateTicket", null);
 UserController = __decorate([
     (0, common_1.UseGuards)(guard_1.JwtGuard),
     (0, common_1.Controller)('users'),

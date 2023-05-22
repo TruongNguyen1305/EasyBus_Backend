@@ -23,16 +23,6 @@ export class PaymentController {
         return res
     }
 
-    @Post()
-    async updateTicketFromUser(@GetUser('id') userId: string){
-
-    }
-
-    @Post()
-    async activateTicketFromUser(@GetUser('id') userId: string){
-
-    }
-
     @Post('notify')
     notifyPayment(@Body() payload: any){
         console.log(this.paymentService.notifyPayment(payload))

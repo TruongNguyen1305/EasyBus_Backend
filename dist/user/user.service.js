@@ -38,6 +38,90 @@ let UserService = class UserService {
             throw new common_1.InternalServerErrorException("server error");
         }
     }
+    async getAllTicket(userId) {
+        try {
+            const { remainTickets } = await this.prisma.user.findFirst({
+                where: {
+                    id: userId
+                },
+                select: {
+                    remainTickets: true
+                }
+            });
+            const res = {
+                normalTickets: 0,
+                monthTickets: 0
+            };
+            remainTickets.forEach((ticket) => {
+                if (ticket.type === client_1.TicketType.DAY) {
+                    res.normalTickets += 1;
+                }
+                else {
+                    res.monthTickets += 1;
+                }
+            });
+            return res;
+        }
+        catch (error) {
+            throw new common_1.InternalServerErrorException("server error");
+        }
+    }
+    async getCurrentActiveTicket(userId) {
+        try {
+            const { currentActiveTicket } = await this.prisma.user.findFirst({
+                where: {
+                    id: userId
+                },
+                select: {
+                    currentActiveTicket: true
+                }
+            });
+            return { currentActiveTicket };
+        }
+        catch (error) {
+            throw new common_1.InternalServerErrorException("server error");
+        }
+    }
+    async activateTicket(userId, dto) {
+        try {
+            let { remainTickets, currentActiveTicket } = await this.prisma.user.findFirst({
+                where: {
+                    id: userId
+                },
+                select: {
+                    remainTickets: true,
+                    currentActiveTicket: true
+                }
+            });
+            if (currentActiveTicket && currentActiveTicket.remainTurn > 0) {
+                return {
+                    statusCode: 400,
+                    error: 'Bạn đang kích hoạt một vé khác!'
+                };
+            }
+            else {
+                let type = dto.type === 'day' ? client_1.TicketType.DAY : client_1.TicketType.MONTH;
+                currentActiveTicket = remainTickets.find((ticket) => ticket.type === type);
+                remainTickets = remainTickets.filter((ticket) => ticket !== currentActiveTicket);
+                await this.prisma.user.update({
+                    where: {
+                        id: userId
+                    },
+                    data: {
+                        remainTickets,
+                        currentActiveTicket
+                    }
+                });
+                console.log('Successfully updated');
+                return {
+                    currentActiveTicket
+                };
+            }
+        }
+        catch (error) {
+            throw new common_1.InternalServerErrorException("server error");
+        }
+    }
 };
 UserService = __decorate([
     (0, common_1.Injectable)(),
