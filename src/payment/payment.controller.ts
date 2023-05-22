@@ -24,7 +24,8 @@ export class PaymentController {
     }
 
     @Post('notify')
-    notifyPayment(@Body() payload: any){
-        console.log(this.paymentService.notifyPayment(payload))
+    async notifyPayment(@Body() payload: any){
+        const res  = await this.paymentService.notifyPayment(payload)
+        console.log(res)
     }
 }

@@ -34,8 +34,9 @@ let PaymentController = class PaymentController {
         }
         return res;
     }
-    notifyPayment(payload) {
-        console.log(this.paymentService.notifyPayment(payload));
+    async notifyPayment(payload) {
+        const res = await this.paymentService.notifyPayment(payload);
+        console.log(res);
     }
 };
 __decorate([
@@ -52,7 +53,7 @@ __decorate([
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object]),
-    __metadata("design:returntype", void 0)
+    __metadata("design:returntype", Promise)
 ], PaymentController.prototype, "notifyPayment", null);
 PaymentController = __decorate([
     (0, common_1.Controller)('payment'),
