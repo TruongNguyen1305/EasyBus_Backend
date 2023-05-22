@@ -20,7 +20,6 @@ export declare class PaymentService {
         remainTickets: Ticket[];
         currentActiveTicket: Ticket;
     } | {
-        errorCode: any;
         message: any;
     }>;
 }

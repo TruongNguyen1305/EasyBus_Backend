@@ -10,7 +10,6 @@ export declare class PaymentController {
         remainTickets: import(".prisma/client").Ticket[];
         currentActiveTicket: import(".prisma/client").Ticket;
     } | {
-        errorCode: any;
         message: any;
     }>;
 }

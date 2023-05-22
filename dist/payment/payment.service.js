@@ -78,7 +78,7 @@ let PaymentService = class PaymentService {
     async updateTicketFromUser(userId, dto) {
     }
     async notifyPayment(payload) {
-        const { partnerCode, orderId, requestId, amount, orderInfo, orderType, transId, resultCode, errorCode, message, payType, responseTime, extraData, m2signature, } = payload;
+        const { partnerCode, orderId, requestId, amount, orderInfo, orderType, transId, resultCode, message, payType, responseTime, extraData, m2signature, } = payload;
         console.log(payload);
         const rawHash = "accessKey=" + this.accessKey + "&amount=" + amount + "&extraData=" + extraData + "&message=" + message + "&orderId=" + orderId + "&orderInfo=" + orderInfo +
             "&orderType=" + orderType + "&partnerCode=" + partnerCode + "&payType=" + payType + "&requestId=" + requestId + "&responseTime=" + responseTime +
@@ -87,7 +87,7 @@ let PaymentService = class PaymentService {
             .update(rawHash)
             .digest('hex');
         if (m2signature === partnerSignature) {
-            if (errorCode == '0') {
+            if (resultCode === 0) {
                 console.log('oke nha');
                 const data = JSON.parse(Buffer.from(extraData, "base64").toString());
                 let tickets = [];
@@ -130,7 +130,6 @@ let PaymentService = class PaymentService {
             }
             else {
                 return {
-                    "errorCode": errorCode,
                     message: message
                 };
             }

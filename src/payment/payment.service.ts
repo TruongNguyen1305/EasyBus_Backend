@@ -97,7 +97,6 @@ export class PaymentService {
             orderType,
             transId ,
             resultCode,
-            errorCode,
             message,
             payType,
             responseTime,
@@ -116,7 +115,7 @@ export class PaymentService {
             .digest('hex');
 
         if(m2signature === partnerSignature){
-            if (errorCode == '0'){
+            if (resultCode === 0){
                 //update data
                 console.log('oke nha')
                 const data: PaymentData = JSON.parse(Buffer.from(extraData, "base64").toString())
@@ -162,7 +161,6 @@ export class PaymentService {
             }
             else{
                 return {
-                    "errorCode": errorCode,
                     message: message
                 }
             }
