@@ -124,10 +124,14 @@ let PaymentService = class PaymentService {
                         currentActiveTicket: true
                     }
                 });
+                console.log('Updated: ', updated);
                 return updated;
             }
             catch (e) {
-                throw new common_1.InternalServerErrorException();
+                return {
+                    statusCode: 500,
+                    message: e.message
+                };
             }
         }
         else {

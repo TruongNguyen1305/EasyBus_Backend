@@ -158,10 +158,14 @@ export class PaymentService {
                         currentActiveTicket: true
                     }
                 })
+                console.log('Updated: ', updated)
                 return updated
             }
             catch (e) {
-                throw new InternalServerErrorException()
+                return {
+                    statusCode: 500,
+                    message: e.message
+                }
             }
         }
         else {

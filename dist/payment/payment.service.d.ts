@@ -19,6 +19,10 @@ export declare class PaymentService {
         remainTickets: Ticket[];
         currentActiveTicket: Ticket;
     } | {
+        statusCode: number;
         message: any;
+    } | {
+        message: any;
+        statusCode?: undefined;
     }>;
 }
