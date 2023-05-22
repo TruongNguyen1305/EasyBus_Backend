@@ -39,7 +39,7 @@ let PaymentController = class PaymentController {
     async activateTicketFromUser(userId) {
     }
     notifyPayment(payload) {
-        return this.paymentService.notifyPayment(payload);
+        console.log(this.paymentService.notifyPayment(payload));
     }
 };
 __decorate([

@@ -102,6 +102,8 @@ let PaymentService = class PaymentService {
                     activatedTime: null
                 });
             }
+            console.log("data: ", data);
+            console.log(tickets);
             try {
                 const user = await this.prisma.user.findFirst({
                     where: {
@@ -109,6 +111,7 @@ let PaymentService = class PaymentService {
                     }
                 });
                 user.remainTickets.push(...tickets);
+                console.log('User ticket: ', user.remainTickets);
                 const updated = await this.prisma.user.update({
                     where: {
                         id: data.userId

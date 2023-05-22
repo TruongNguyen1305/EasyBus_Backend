@@ -35,6 +35,6 @@ export class PaymentController {
 
     @Post('notify')
     notifyPayment(@Body() payload: any){
-        return this.paymentService.notifyPayment(payload)
+        console.log(this.paymentService.notifyPayment(payload))
     }
 }
