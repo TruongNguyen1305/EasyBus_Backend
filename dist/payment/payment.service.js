@@ -100,7 +100,7 @@ let PaymentService = class PaymentService {
                     type: client_1.TicketType.MONTH,
                     remainTurn: 30
                 });
-                data.normalTicketCount -= 1;
+                data.monthTicketCount -= 1;
             }
             console.log("data: ", data);
             console.log(tickets);
