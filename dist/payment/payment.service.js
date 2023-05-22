@@ -95,12 +95,14 @@ let PaymentService = class PaymentService {
                     type: client_1.TicketType.DAY,
                     activatedTime: null
                 });
+                data.normalTicketCount -= 1;
             }
             while (data.monthTicketCount) {
                 tickets.push({
                     type: client_1.TicketType.MONTH,
                     activatedTime: null
                 });
+                data.normalTicketCount -= 1;
             }
             console.log("data: ", data);
             console.log(tickets);

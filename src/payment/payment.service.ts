@@ -129,12 +129,14 @@ export class PaymentService {
                     type: TicketType.DAY,
                     activatedTime: null
                 })
+                data.normalTicketCount -= 1
             }
             while (data.monthTicketCount) {
                 tickets.push({
                     type: TicketType.MONTH,
                     activatedTime: null
                 })
+                data.normalTicketCount -= 1
             }
             console.log("data: ", data)
             console.log(tickets)
