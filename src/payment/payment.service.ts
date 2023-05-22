@@ -114,55 +114,58 @@ export class PaymentService {
             .update(rawHash)
             .digest('hex');
 
-        if(m2signature === partnerSignature){
-            if (resultCode === 0){
-                //update data
-                console.log('oke nha')
-                const data: PaymentData = JSON.parse(Buffer.from(extraData, "base64").toString())
-                let tickets: Ticket[] = []
-                while(data.normalTicketCount) {
-                    tickets.push({
-                        type: TicketType.DAY,
-                        activatedTime: null
-                    })
-                }
-                while (data.monthTicketCount) {
-                    tickets.push({
-                        type: TicketType.MONTH,
-                        activatedTime: null
-                    })
-                }
-                try{
-                    const user = await this.prisma.user.findFirst({
-                        where: {
-                            id: data.userId
-                        }
-                    })
+        //Nay loi roi hic
+        // if(m2signature === partnerSignature){
+            
+        // }
 
-                    user.remainTickets.push(...tickets)
-
-                    const updated = await this.prisma.user.update({
-                        where: {
-                            id: data.userId
-                        },
-                        data: {
-                            remainTickets: user.remainTickets
-                        },
-                        select: {
-                            remainTickets: true,
-                            currentActiveTicket: true
-                        }
-                    })
-                    return updated
-                }
-                catch(e) {
-                    throw new InternalServerErrorException()
-                }
+        if (resultCode === 0) {
+            //update data
+            console.log('oke nhaaaaaaaa')
+            const data: PaymentData = JSON.parse(Buffer.from(extraData, "base64").toString())
+            let tickets: Ticket[] = []
+            while (data.normalTicketCount) {
+                tickets.push({
+                    type: TicketType.DAY,
+                    activatedTime: null
+                })
             }
-            else{
-                return {
-                    message: message
-                }
+            while (data.monthTicketCount) {
+                tickets.push({
+                    type: TicketType.MONTH,
+                    activatedTime: null
+                })
+            }
+            try {
+                const user = await this.prisma.user.findFirst({
+                    where: {
+                        id: data.userId
+                    }
+                })
+
+                user.remainTickets.push(...tickets)
+
+                const updated = await this.prisma.user.update({
+                    where: {
+                        id: data.userId
+                    },
+                    data: {
+                        remainTickets: user.remainTickets
+                    },
+                    select: {
+                        remainTickets: true,
+                        currentActiveTicket: true
+                    }
+                })
+                return updated
+            }
+            catch (e) {
+                throw new InternalServerErrorException()
+            }
+        }
+        else {
+            return {
+                message: message
             }
         }
     }

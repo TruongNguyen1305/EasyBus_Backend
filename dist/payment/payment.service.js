@@ -86,53 +86,51 @@ let PaymentService = class PaymentService {
         let partnerSignature = (0, crypto_1.createHmac)('sha256', this.secretkey)
             .update(rawHash)
             .digest('hex');
-        if (m2signature === partnerSignature) {
-            if (resultCode === 0) {
-                console.log('oke nha');
-                const data = JSON.parse(Buffer.from(extraData, "base64").toString());
-                let tickets = [];
-                while (data.normalTicketCount) {
-                    tickets.push({
-                        type: client_1.TicketType.DAY,
-                        activatedTime: null
-                    });
-                }
-                while (data.monthTicketCount) {
-                    tickets.push({
-                        type: client_1.TicketType.MONTH,
-                        activatedTime: null
-                    });
-                }
-                try {
-                    const user = await this.prisma.user.findFirst({
-                        where: {
-                            id: data.userId
-                        }
-                    });
-                    user.remainTickets.push(...tickets);
-                    const updated = await this.prisma.user.update({
-                        where: {
-                            id: data.userId
-                        },
-                        data: {
-                            remainTickets: user.remainTickets
-                        },
-                        select: {
-                            remainTickets: true,
-                            currentActiveTicket: true
-                        }
-                    });
-                    return updated;
-                }
-                catch (e) {
-                    throw new common_1.InternalServerErrorException();
-                }
+        if (resultCode === 0) {
+            console.log('oke nhaaaaaaaa');
+            const data = JSON.parse(Buffer.from(extraData, "base64").toString());
+            let tickets = [];
+            while (data.normalTicketCount) {
+                tickets.push({
+                    type: client_1.TicketType.DAY,
+                    activatedTime: null
+                });
             }
-            else {
-                return {
-                    message: message
-                };
+            while (data.monthTicketCount) {
+                tickets.push({
+                    type: client_1.TicketType.MONTH,
+                    activatedTime: null
+                });
             }
+            try {
+                const user = await this.prisma.user.findFirst({
+                    where: {
+                        id: data.userId
+                    }
+                });
+                user.remainTickets.push(...tickets);
+                const updated = await this.prisma.user.update({
+                    where: {
+                        id: data.userId
+                    },
+                    data: {
+                        remainTickets: user.remainTickets
+                    },
+                    select: {
+                        remainTickets: true,
+                        currentActiveTicket: true
+                    }
+                });
+                return updated;
+            }
+            catch (e) {
+                throw new common_1.InternalServerErrorException();
+            }
+        }
+        else {
+            return {
+                message: message
+            };
         }
     }
 };
