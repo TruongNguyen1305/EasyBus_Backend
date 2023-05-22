@@ -6,4 +6,11 @@ export declare class PaymentController {
     getPaymentFromMoMo(userId: string, dto: PaymentDto): Promise<any>;
     updateTicketFromUser(userId: string): Promise<void>;
     activateTicketFromUser(userId: string): Promise<void>;
+    notifyPayment(payload: any): Promise<{
+        remainTickets: import(".prisma/client").Ticket[];
+        currentActiveTicket: import(".prisma/client").Ticket;
+    } | {
+        errorCode: any;
+        message: any;
+    }>;
 }

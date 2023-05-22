@@ -1,6 +1,7 @@
 import { ConfigService } from "@nestjs/config";
 import { PrismaService } from "../prisma/prisma.service";
 import { PaymentDto } from "./dto";
+import { Ticket } from "@prisma/client";
 export declare class PaymentService {
     private prisma;
     private config;
@@ -15,4 +16,11 @@ export declare class PaymentService {
     constructor(prisma: PrismaService, config: ConfigService);
     getPaymentFromMoMo(userId: string, dto: PaymentDto): Promise<any>;
     updateTicketFromUser(userId: string, dto: PaymentDto): Promise<void>;
+    notifyPayment(payload: any): Promise<{
+        remainTickets: Ticket[];
+        currentActiveTicket: Ticket;
+    } | {
+        errorCode: any;
+        message: any;
+    }>;
 }

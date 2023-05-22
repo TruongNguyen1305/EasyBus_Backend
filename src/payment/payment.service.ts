@@ -4,6 +4,13 @@ import { PrismaService } from "../prisma/prisma.service";
 import { PaymentDto } from "./dto";
 import {createHmac} from 'crypto'
 import fetch from 'node-fetch'
+import { Ticket, TicketType } from "@prisma/client";
+
+type PaymentData = {
+    normalTicketCount: number,
+    monthTicketCount: number,
+    userId: string
+}
 
 @Injectable()
 export class PaymentService {
@@ -28,8 +35,13 @@ export class PaymentService {
     }
 
     async getPaymentFromMoMo(userId: string, dto: PaymentDto){
+        const data = {
+            normalTicketCount: dto.normalTicketCount,
+            monthTicketCount: dto.monthTicketCount,
+            userId: userId
+        }
         let requestType = 'linkWallet'
-        let extraData = "ew0KImVtYWlsIjogImh1b25neGRAZ21haWwuY29tIg0KfQ=="
+        let extraData = Buffer.from(JSON.stringify(data)).toString("base64"); 
         let requestId = userId + new Date().getTime()
         let rawSignature = "accessKey=" + this.accessKey + "&amount=" + dto.totalPrice.toString() + "&extraData=" + 
                             extraData + "&ipnUrl=" + this.ipnUrl + "&orderId=" + 
@@ -73,5 +85,87 @@ export class PaymentService {
 
     async updateTicketFromUser(userId: string, dto: PaymentDto) {
 
+    }
+
+    async notifyPayment(payload: any){
+        const {
+            partnerCode,
+            orderId,
+            requestId,
+            amount,
+            orderInfo,
+            orderType,
+            transId ,
+            resultCode,
+            errorCode,
+            message,
+            payType,
+            responseTime,
+            extraData,
+            m2signature,
+        } = payload
+
+        console.log(payload)
+
+        const rawHash = "accessKey=" + this.accessKey + "&amount=" + amount + "&extraData=" + extraData + "&message=" + message + "&orderId=" + orderId + "&orderInfo=" + orderInfo +
+			"&orderType=" + orderType + "&partnerCode=" + partnerCode + "&payType=" + payType + "&requestId=" + requestId + "&responseTime=" + responseTime +
+			"&resultCode=" + resultCode + "&transId=" + transId
+
+        let partnerSignature = createHmac('sha256', this.secretkey)
+            .update(rawHash)
+            .digest('hex');
+
+        if(m2signature === partnerSignature){
+            if (errorCode == '0'){
+                //update data
+                console.log('oke nha')
+                const data: PaymentData = JSON.parse(Buffer.from(extraData, "base64").toString())
+                let tickets: Ticket[] = []
+                while(data.normalTicketCount) {
+                    tickets.push({
+                        type: TicketType.DAY,
+                        activatedTime: null
+                    })
+                }
+                while (data.monthTicketCount) {
+                    tickets.push({
+                        type: TicketType.MONTH,
+                        activatedTime: null
+                    })
+                }
+                try{
+                    const user = await this.prisma.user.findFirst({
+                        where: {
+                            id: data.userId
+                        }
+                    })
+
+                    user.remainTickets.push(...tickets)
+
+                    const updated = await this.prisma.user.update({
+                        where: {
+                            id: data.userId
+                        },
+                        data: {
+                            remainTickets: user.remainTickets
+                        },
+                        select: {
+                            remainTickets: true,
+                            currentActiveTicket: true
+                        }
+                    })
+                    return updated
+                }
+                catch(e) {
+                    throw new InternalServerErrorException()
+                }
+            }
+            else{
+                return {
+                    "errorCode": errorCode,
+                    message: message
+                }
+            }
+        }
     }
 }

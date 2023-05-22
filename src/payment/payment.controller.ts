@@ -4,11 +4,11 @@ import { JwtGuard } from "src/auth/guard";
 import { GetUser } from "src/auth/decorator";
 import { PaymentDto } from "./dto";
 
-@UseGuards(JwtGuard)
 @Controller('payment')
 export class PaymentController {
     constructor(private paymentService: PaymentService){}
 
+    @UseGuards(JwtGuard)
     @Post()
     async getPaymentFromMoMo(@GetUser('id') userId: string, @Body() dto: PaymentDto){
         const res: any = await this.paymentService.getPaymentFromMoMo(userId, dto)
@@ -28,7 +28,13 @@ export class PaymentController {
 
     }
 
+    @Post()
     async activateTicketFromUser(@GetUser('id') userId: string){
 
+    }
+
+    @Post('notify')
+    notifyPayment(@Body() payload: any){
+        return this.paymentService.notifyPayment(payload)
     }
 }
